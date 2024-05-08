@@ -2,18 +2,25 @@ import random
 
 
 def main():
-    rand_list = rand_tuple(5, 2)
-    # [(1, 2), (2, 6), (3, 5), (1, 3), (6, 8)]
+    size = int(input("Enter the size of list: "))
+    seed = int(input("Enter the seed: "))
+
+    rand_list = rand_tuple(size, seed)
+
     print(f"Unsorted: {rand_list}")
+    print()
 
     div_n_con = div_algo(rand_list)
     print(f"Divide and Conquer: {div_n_con} Total activities: {len(div_n_con)}")
+    print()
 
     dynamic = dynamic_algo(rand_list)
     print(f"Dynamic Programming: {dynamic} Total activities: {len(dynamic)}")
+    print()
 
     greed = greedy_algo(rand_list)
     print(f"Greedy algo: {greed} Total activities: {len(greed)}")
+    print()
 
     print(f"Sorted: {rand_list}")
 
@@ -162,8 +169,8 @@ def rand_tuple(size, seed):
     tuple_list = []
     for _ in range(size):
         while True:
-            s = random.randint(1, 9)
-            f = random.randint(1, 9)
+            s = random.randint(1, 24)
+            f = random.randint(1, 24)
             if s < f:
                 if (s, f) not in tuple_list:
                     tuple_list.append((s, f))
