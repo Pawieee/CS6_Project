@@ -2,8 +2,8 @@ import random
 
 
 def main():
-    size = int(input("Enter the size of list: "))
-    seed = int(input("Enter the seed: "))
+    size = get_positive_integer("Enter the size of list: ")
+    seed = get_positive_integer("Enter the seed: ")
 
     rand_list = rand_tuple(size, seed)
 
@@ -176,6 +176,18 @@ def rand_tuple(size, seed):
                     tuple_list.append((s, f))
                     break
     return tuple_list
+
+
+# For handling input verification
+def get_positive_integer(n):
+    while True:
+        try:
+            value = int(input(n))
+            if value <= 0:
+                raise ValueError
+            return value
+        except ValueError:
+            print("Please enter a positive integer.")
 
 
 if __name__ == "__main__":
