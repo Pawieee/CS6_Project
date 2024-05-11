@@ -27,7 +27,7 @@ def main():
 
 def greedy_algo(activities):
     # Sort activities by finish time
-    # activities.sort(key=lambda x: x[1])
+    activities.sort(key=lambda x: x[1])
 
     # The first activity is always selected
     i = 0
@@ -36,9 +36,7 @@ def greedy_algo(activities):
 
     # Consider rest of the activities
     for j in range(size):
-        # If this activity has start time greater than
-        # or equal to the finish time of previously selected
-        # activity, then select it
+        # If this activity has start time greater than or equal to the finish time of previously selected activity, then select it
         if activities[j][0] >= activities[i][1]:
             final.append(activities[j])
             i = j
@@ -54,7 +52,7 @@ def div_algo(activities):
     right = activities[mid:]  # O(1)
 
     left = div_algo(left)  # O(n/2)
-    right = div_algo(right)  # On/2)
+    right = div_algo(right)  # O(n/2)
 
     return merge(left, right)  # O(n)
 
@@ -105,28 +103,28 @@ def merge(left, right):
     while i < len(left) or j < len(right):  # O(n)
         # If there are activities in both halves
         if i < len(left) and j < len(right):
-            lefty = left[i]  # O(1)
-            righty = right[j]  # O(1)
+            left_act = left[i]  # O(1)
+            right_act = right[j]  # O(1)
             # Choose the activity with the lowest duration
-            if lefty[1] - lefty[0] < righty[1] - righty[0]:
-                if not merged or lefty[0] >= merged[-1][1]:
-                    merged.append(lefty)  # O(1)
+            if left_act[1] - left_act[0] < right_act[1] - right_act[0]:
+                if not merged or left_act[0] >= merged[-1][1]:
+                    merged.append(left_act)  # O(1)
                 i += 1  # O(1)
             else:
-                if not merged or righty[0] >= merged[-1][1]:
-                    merged.append(righty)  # O(1)
+                if not merged or right_act[0] >= merged[-1][1]:
+                    merged.append(right_act)  # O(1)
                 j += 1  # O(1)
         # If there are only activities in the left half
         elif i < len(left):
-            lefty = left[i]  # O(1)
-            if not merged or lefty[0] >= merged[-1][1]:
-                merged.append(lefty)  # O(1)
+            left_act = left[i]  # O(1)
+            if not merged or left_act[0] >= merged[-1][1]:
+                merged.append(left_act)  # O(1)
             i += 1  # O(1)
         # If there are only activities in the right half
         elif j < len(right):
-            righty = right[j]  # O(1)
-            if not merged or righty[0] >= merged[-1][1]:
-                merged.append(righty)  # O(1)
+            right_act = right[j]  # O(1)
+            if not merged or right_act[0] >= merged[-1][1]:
+                merged.append(right_act)  # O(1)
             j += 1  # O(1)
 
     return merged
@@ -146,10 +144,9 @@ def dynamic_algo(activities):
     dp[0] = 1
     selected[0] = [activities[0]]
 
-    # Fill entries in dp[] using recursive property
+    # Fill entries in dp[] using for-loop
     for i in range(1, n):
-        # Find the maximum number of activities that can
-        # be performed by including the i-th activity
+        # Find the maximum number of activities that can be performed by including the i-th activity
         for j in range(i):
             if activities[j][1] <= activities[i][0] and dp[j] + 1 > dp[i]:
                 dp[i] = dp[j] + 1
@@ -171,7 +168,9 @@ def rand_tuple(size, seed):
         while True:
             s = random.randint(1, 24)
             f = random.randint(1, 24)
+            # Start time is less than finish time
             if s < f:
+                # Avoid duplicates
                 if (s, f) not in tuple_list:
                     tuple_list.append((s, f))
                     break
